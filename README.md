@@ -1,2 +1,2 @@
 # first_application
-My first application
+My first created application
