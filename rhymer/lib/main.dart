@@ -33,6 +33,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -40,7 +41,7 @@ class HomeScreen extends StatelessWidget {
             pinned: true, // зафиксировать AppBar
             snap: true,
             floating: true,
-            title: Text('Rhymer'),
+            title: Text('NothingSeeHere'),
             elevation: 0,
             surfaceTintColor: Colors.transparent,
             bottom: PreferredSize(
@@ -51,50 +52,27 @@ class HomeScreen extends StatelessWidget {
             height: 16,
           )),
           SliverToBoxAdapter(
-              child: ListView.separated(
-                  padding: const EdgeInsets.only(left: 16),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 10,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(width: 16),
-                  itemBuilder: (context, index) {
-                    return const RhymeHistoryCard();
-                  })),
+              child: SizedBox(
+                  height: 120,
+                  child: ListView.separated( 
+                      padding: const EdgeInsets.only(left: 16),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 10,
+                      separatorBuilder: (context, index) => const SizedBox(
+                            width: 16,
+                          ),
+                      itemBuilder: (context, index) {
+                        return const RhymeHistoryCard();
+                      }))),
           const SliverToBoxAdapter(
               child: SizedBox(
             height: 16,
           )), // разделитель
           SliverList.builder(
-            itemBuilder: (context, index) => const RhymeListCard(),
-          ),
+              itemBuilder: (context, index) => const RhymeListCard()),
         ],
       ),
     );
-  }
-}
-
-class RhymeHistoryCard extends StatelessWidget {
-  const RhymeHistoryCard({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final rhymes = List.generate(4, (index) => 'Рифма #$index');
-    final theme = Theme.of(context);
-    return BaseContainer(
-        margin: EdgeInsets.zero,
-        padding: const EdgeInsets.all(12),
-        width: 200,
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Text('Слово',
-              style: theme.textTheme.bodyLarge
-                  ?.copyWith(fontWeight: FontWeight.w700)),
-          Wrap(
-            spacing: 8,
-            children: [...rhymes.map((rhyme) => Text(rhyme))],
-          )
-        ]));
   }
 }
 
@@ -116,12 +94,12 @@ class BaseContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      width: width,
-      margin: margin,
-      padding: padding,
-      decoration: BoxDecoration(
-          color: theme.cardColor, borderRadius: BorderRadius.circular(10)),
-    );
+        width: width,
+        margin: margin,
+        padding: padding,
+        decoration: BoxDecoration(
+            color: theme.cardColor, borderRadius: BorderRadius.circular(10)),
+        child: child);
   }
 }
 
@@ -140,7 +118,7 @@ class RhymeListCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Рифма',
+            'Touch --->',
             style: theme.textTheme.bodyLarge,
           ),
           IconButton(
@@ -152,6 +130,31 @@ class RhymeListCard extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class RhymeHistoryCard extends StatelessWidget {
+  const RhymeHistoryCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final rhymes = List.generate(4, (index) => 'Word $index');
+    final theme = Theme.of(context);
+    return BaseContainer(
+        margin: EdgeInsets.zero,
+        padding: const EdgeInsets.all(12),
+        width: 200,
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Text('Phrase',
+              style: theme.textTheme.bodyLarge
+                  ?.copyWith(fontWeight: FontWeight.w700)),
+          Wrap(
+            spacing: 8,
+            children: [...rhymes.map((rhyme) => Text(rhyme))],
+          )
+        ]));
   }
 }
 
@@ -176,7 +179,7 @@ class SearchButton extends StatelessWidget {
             const Icon(Icons.search_rounded),
             const SizedBox(width: 12),
             Text(
-              'Поиск рифм...',
+              'Search something...',
               style: TextStyle(
                 fontSize: 18,
                 color: theme.hintColor.withOpacity(0.5),
