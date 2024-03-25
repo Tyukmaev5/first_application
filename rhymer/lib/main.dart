@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,10 +25,17 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
   });
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  var _selectedPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +60,7 @@ class HomeScreen extends StatelessWidget {
           SliverToBoxAdapter(
               child: SizedBox(
                   height: 120,
-                  child: ListView.separated( 
+                  child: ListView.separated(
                       padding: const EdgeInsets.only(left: 16),
                       scrollDirection: Axis.horizontal,
                       itemCount: 10,
@@ -72,7 +78,36 @@ class HomeScreen extends StatelessWidget {
               itemBuilder: (context, index) => const RhymeListCard()),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: theme.primaryColor,
+        unselectedItemColor: theme.hintColor,
+        currentIndex: _selectedPageIndex,
+        onTap: _openPage,
+        //selectedLabelStyle: TextStyle(fontWeight: FontWeight.w500),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            label: 'Menu',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+      ),
     );
+  }
+
+  void _openPage(int index) {
+    setState(() => _selectedPageIndex = index);
   }
 }
 
