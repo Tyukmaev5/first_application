@@ -5,13 +5,13 @@ class BaseContainer extends StatelessWidget {
   const BaseContainer({
     super.key,
     required this.child,
-    required this.width,
+    this.width,
     this.margin,
     this.padding = const EdgeInsets.only(left: 12),
   });
 
   final EdgeInsets? margin;
-  final double width;
+  final double? width;
   final Widget child;
   final EdgeInsets padding;
 

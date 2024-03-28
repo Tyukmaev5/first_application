@@ -16,7 +16,7 @@ class FavoritesScreen extends StatelessWidget {
           const SliverAppBar(
             snap: true,
             floating: true,
-            title: Text('Favorites'),
+            title: Text('Избранное'),
             elevation: 0,
             surfaceTintColor: Colors.transparent,
           ),

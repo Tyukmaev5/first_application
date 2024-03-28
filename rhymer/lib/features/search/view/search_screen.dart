@@ -1,4 +1,3 @@
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:rhymer/features/search/widgets/widgets.dart';
@@ -18,7 +17,7 @@ class SearchScreen extends StatelessWidget {
           pinned: true, // зафиксировать AppBar
           snap: true,
           floating: true,
-          title: Text('Search'),
+          title: Text('Rhymer'),
           elevation: 0,
           surfaceTintColor: Colors.transparent,
           bottom: PreferredSize(
@@ -39,7 +38,14 @@ class SearchScreen extends StatelessWidget {
                           width: 16,
                         ),
                     itemBuilder: (context, index) {
-                      return const RhymeHistoryCard();
+                      return const RhymeHistoryCard(
+                        rhymes: [
+                          'word',
+                          'word2',
+                          'word3',
+                          'word4',
+                        ],
+                      );
                     }))),
         const SliverToBoxAdapter(
             child: SizedBox(
@@ -51,4 +57,3 @@ class SearchScreen extends StatelessWidget {
     );
   }
 }
-

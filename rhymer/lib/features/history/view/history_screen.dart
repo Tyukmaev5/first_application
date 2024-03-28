@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:rhymer/ui/ui.dart';
 
 @RoutePage()
 class HistoryScreen extends StatelessWidget {
@@ -20,22 +21,28 @@ class HistoryScreen extends StatelessWidget {
             surfaceTintColor: Colors.transparent,
           ),
           const SliverToBoxAdapter(child: SizedBox(height: 16)), // раздел
-          SliverGrid(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisSpacing: 10.0,
-              crossAxisSpacing: 10.0,
-              childAspectRatio: 4.0,
-              crossAxisCount: 10,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.teal[100 * (index % 9)],
-                  child: Text('grid item $index'),
-                );
-              },
-              childCount: 20,
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 10.0,
+                childAspectRatio: 1.6,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return const RhymeHistoryCard(
+                    rhymes: [
+                      'word',
+                      'word2',
+                      'word3',
+                      'word4',
+                    ],
+                  );
+                },
+                childCount: 20,
+              ),
             ),
           ),
         ],
