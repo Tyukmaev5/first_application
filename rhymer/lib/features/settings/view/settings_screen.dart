@@ -11,19 +11,37 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          const SliverAppBar(
             snap: true,
             floating: true,
             title: Text('Настройки'),
             elevation: 0,
             surfaceTintColor: Colors.transparent,
           ),
-          SliverToBoxAdapter(child: SizedBox(height: 16)), // раздел
+          const SliverToBoxAdapter(child: SizedBox(height: 16)), // раздел
           SliverToBoxAdapter(
-            child: SettingsListCard(title: 'Темная тема', value: true),
+            child: SettingsListCard(
+              title: 'Темная тема',
+              value: true,
+              onChanged: (value) {},
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SettingsListCard(
+              title: 'Уведомления',
+              value: false,
+              onChanged: (value) {},
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SettingsListCard(
+              title: 'Разрешить аналитику',
+              value: false,
+              onChanged: (value) {},
+            ),
           ),
         ],
       ),
@@ -47,7 +65,7 @@ class SettingsListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 8),
       child: BaseContainer(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         width: double.infinity,
@@ -56,7 +74,9 @@ class SettingsListCard extends StatelessWidget {
           children: [
             Text(
               title,
-              style: theme.textTheme.titleMedium,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontSize: 18,
+              ),
             ),
             CupertinoSwitch(
               value: value,
