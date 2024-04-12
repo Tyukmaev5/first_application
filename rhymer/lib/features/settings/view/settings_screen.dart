@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rhymer/features/settings/widgets/widgets.dart';
 import 'package:rhymer/ui/ui.dart';
 
 @RoutePage()
@@ -11,6 +12,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -23,67 +25,58 @@ class SettingsScreen extends StatelessWidget {
           ),
           const SliverToBoxAdapter(child: SizedBox(height: 16)), // раздел
           SliverToBoxAdapter(
-            child: SettingsListCard(
+            child: SettingsToggleCard(
               title: 'Темная тема',
               value: true,
               onChanged: (value) {},
             ),
           ),
           SliverToBoxAdapter(
-            child: SettingsListCard(
+            child: SettingsToggleCard(
               title: 'Уведомления',
               value: false,
               onChanged: (value) {},
             ),
           ),
           SliverToBoxAdapter(
-            child: SettingsListCard(
+            child: SettingsToggleCard(
               title: 'Разрешить аналитику',
               value: false,
               onChanged: (value) {},
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class SettingsListCard extends StatelessWidget {
-  const SettingsListCard({
-    super.key,
-    required this.title,
-    required this.value,
-    this.onChanged,
-  });
-
-  final String title;
-  final bool value;
-  final ValueChanged<bool>? onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 8),
-      child: BaseContainer(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        width: double.infinity,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontSize: 18,
+          const SliverToBoxAdapter(child: SizedBox(height: 16)), // раздел
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16)
+                  .copyWith(bottom: 8),
+              child: BaseContainer(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Очистить историю',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontSize: 18,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Icon(
+                        Icons.delete_sweep_outlined,
+                        color: theme.primaryColor,
+                        size: 32,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-            CupertinoSwitch(
-              value: value,
-              onChanged: onChanged,
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
