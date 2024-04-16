@@ -5,8 +5,12 @@ class RhymeListCard extends StatelessWidget {
   const RhymeListCard({
     super.key,
     this.isFavorite = false,
+    required this.rhyme,
+    this.sourceWord,
   });
 
+  final String rhyme;
+  final String? sourceWord;
   final bool isFavorite;
 
   @override
@@ -18,9 +22,28 @@ class RhymeListCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'Touch --->',
-            style: theme.textTheme.bodyLarge,
+          Row(
+            children: [
+              if (sourceWord != null) ...[
+                Text(
+                  sourceWord!,
+                  style: theme.textTheme.bodyLarge,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 15,
+                    color: theme.hintColor.withOpacity(0.5),
+                  ),
+                ),
+              ],
+              Text(
+                rhyme,
+                style: theme.textTheme.bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ],
           ),
           IconButton(
             onPressed: () {},

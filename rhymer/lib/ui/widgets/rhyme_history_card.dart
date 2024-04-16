@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rhymer/ui/widgets/widgets.dart';   
+import 'package:rhymer/ui/widgets/widgets.dart';
 
 class RhymeHistoryCard extends StatelessWidget {
   const RhymeHistoryCard({
@@ -28,16 +28,21 @@ class RhymeHistoryCard extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              rhymes.map((e) => '$e, ').join(),
+              rhymes.asMap().entries.map((e) {
+                final sb = StringBuffer();
+                sb.write(e.value);
+                if (e.key != rhymes.length - 1) {
+                  sb.write(', ');
+                }
+                return sb.toString();
+              }).join(),
               overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w800,
+                fontSize: 13,
+                color: theme.hintColor.withOpacity(0.4),
+              ),
               maxLines: 4,
-              // Wrap(
-              //   children: rhymes
-              //       .map((e) => Padding(
-              //             padding: const EdgeInsets.only(right: 4),
-              //             child: Text(e),
-              //           ))
-              //       .toList(),
             ),
           )
         ],
