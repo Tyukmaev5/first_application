@@ -21,55 +21,65 @@ class SearchScreen extends StatelessWidget {
           elevation: 0,
           surfaceTintColor: Colors.transparent,
           bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(70),
-              child: SearchButton(
-                onTap: () {
-                  showBottomSheet(
-                    context: context,
-                    builder: (context) => const Padding( 
-                      padding: EdgeInsets.all(20),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Text('showBottomSheet'),
-                      ),
-                    ),
-                  );
-                },
-              )),
+            preferredSize: const Size.fromHeight(70),
+            child: SearchButton(
+              onTap: () => _showSearchBottomSheet(context),
+            ),
+          ),
         ),
         const SliverToBoxAdapter(
-            child: SizedBox(
-          height: 16,
-        )),
+          child: SizedBox(
+            height: 16,
+          ),
+        ),
         SliverToBoxAdapter(
-            child: SizedBox(
-                height: 120,
-                child: ListView.separated(
-                    padding: const EdgeInsets.only(left: 16),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    separatorBuilder: (context, index) => const SizedBox(
-                          width: 16,
-                        ),
-                    itemBuilder: (context, index) {
-                      return const RhymeHistoryCard(
-                        rhymes: [
-                          'word',
-                          'word2',
-                          'word3',
-                          'word4',
-                        ],
-                      );
-                    }))),
+          child: SizedBox(
+            height: 120,
+            child: ListView.separated(
+              padding: const EdgeInsets.only(left: 16),
+              scrollDirection: Axis.horizontal,
+              itemCount: 10,
+              separatorBuilder: (context, index) => const SizedBox(
+                width: 16,
+              ),
+              itemBuilder: (context, index) {
+                return const RhymeHistoryCard(
+                  rhymes: [
+                    'word',
+                    'word2',
+                    'word3',
+                    'word4',
+                  ],
+                );
+              },
+            ),
+          ),
+        ),
         const SliverToBoxAdapter(
-            child: SizedBox(
-          height: 16,
-        )), // разделитель
+          child: SizedBox(
+            height: 16,
+          ),
+        ), // разделитель
         SliverList.builder(
-            itemBuilder: (context, index) => const RhymeListCard(
-                  rhyme: 'Рифма',
-                )),
+          itemBuilder: (context, index) => const RhymeListCard(
+            rhyme: 'Рифма',
+          ),
+        ),
       ],
     );
   }
+
+  void _showSearchBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      context: context,
+      builder: (context) => const Padding(
+        padding: EdgeInsets.only(top: 60),
+        child: SearchRhymesBottomSheet(),
+      ),
+    );
+  }
 }
+
