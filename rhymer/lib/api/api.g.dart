@@ -19,9 +19,9 @@ class _RhymerApiClient implements RhymerApiClient {
   String? baseUrl;
 
   @override
-  Future<List<Rhymes>> getTasks() async {
+  Future<List<Rhymes>> getTasks(String word) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'word': word};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result =

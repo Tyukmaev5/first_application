@@ -1,10 +1,20 @@
-import 'package:flutter/material.dart'; 
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:rhymer/api/api.dart';
 import 'package:rhymer/router/router.dart';
 import 'package:rhymer/ui/ui.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  initApplicationDependencies(); 
   runApp(const RhymerApp());
 }
+
+void initApplicationDependencies() {
+  initApiClient();
+} 
 
 class RhymerApp extends StatefulWidget {
   const RhymerApp({super.key});
@@ -18,7 +28,6 @@ class _RhymerAppState extends State<RhymerApp> {
 
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp.router(
       title: 'Rhymer',
       debugShowCheckedModeBanner: false,
