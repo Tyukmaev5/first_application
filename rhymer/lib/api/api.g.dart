@@ -19,13 +19,13 @@ class _RhymerApiClient implements RhymerApiClient {
   String? baseUrl;
 
   @override
-  Future<List<Rhymes>> getTasks(String word) async {
+  Future<Rhymes> getRhymesList(String word) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'word': word};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<Rhymes>>(Options(
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Rhymes>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -41,9 +41,7 @@ class _RhymerApiClient implements RhymerApiClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    var value = _result.data!
-        .map((dynamic i) => Rhymes.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = Rhymes.fromJson(_result.data!);
     return value;
   }
 

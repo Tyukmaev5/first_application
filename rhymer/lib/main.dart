@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rhymer/api/api.dart';
@@ -8,13 +7,9 @@ import 'package:rhymer/ui/ui.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  initApplicationDependencies(); 
+  final client = RhymerApiClient.create(apiUrl: dotenv.env['API_URL']);
   runApp(const RhymerApp());
 }
-
-void initApplicationDependencies() {
-  initApiClient();
-} 
 
 class RhymerApp extends StatefulWidget {
   const RhymerApp({super.key});
