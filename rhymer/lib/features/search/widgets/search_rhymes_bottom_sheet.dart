@@ -3,8 +3,10 @@ import 'package:rhymer/ui/widgets/widgets.dart';
 
 class SearchRhymesBottomSheet extends StatelessWidget {
   const SearchRhymesBottomSheet({
-    super.key,
+    super.key, required this.controller,
   });
+
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class SearchRhymesBottomSheet extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: TextField(
+                      controller: controller,
                       decoration: InputDecoration(
                         hintText: 'Начать вводить...',
                         hintStyle:

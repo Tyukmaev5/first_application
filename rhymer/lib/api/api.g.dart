@@ -24,12 +24,13 @@ class _RhymerApiClient implements RhymerApiClient {
     final queryParameters = <String, dynamic>{r'word': word};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Rhymes>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+      _setStreamType<Rhymes>(
+        Options(
+          method: 'GET',
+          headers: _headers,
+          extra: _extra,
+        )
             .compose(
               _dio.options,
               '/tasks',
@@ -37,10 +38,13 @@ class _RhymerApiClient implements RhymerApiClient {
               data: _data,
             )
             .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
+              baseUrl: _combineBaseUrls(
+                _dio.options.baseUrl,
+                baseUrl,
+              ),
+            ),
+      ),
+    );
     final value = Rhymes.fromJson(_result.data!);
     return value;
   }

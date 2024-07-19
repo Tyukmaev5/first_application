@@ -10,8 +10,7 @@ class RhymesListBloc extends Bloc<RhymesListEvent, RhymesListState> {
   RhymesListBloc({
     required this.apiClient,
   }) : super(RhymesListInitial()) {
-    on<RhymesListEvent>(
-        _onSearch as EventHandler<RhymesListEvent, RhymesListState>);
+    on<SearchRhymes>(_onSearch);
   }
 
   final RhymerApiClient apiClient;
@@ -21,7 +20,9 @@ class RhymesListBloc extends Bloc<RhymesListEvent, RhymesListState> {
     Emitter<RhymesListState> emit,
   ) async {
     try {
+      emit(RhymesListLoading());
       final rhymes = await apiClient.getRhymesList(event.query);
+      emit(RhymesListLoaded(rhymes: rhymes));
     } catch (e) {
       emit(RhymesListFailure(error: e));
     }

@@ -1,13 +1,27 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rhymer/features/search/bloc/rhymes_list_bloc.dart';
 import 'package:rhymer/features/search/widgets/widgets.dart';
 import 'package:rhymer/ui/ui.dart';
 
 @RoutePage()
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({
-    super.key,
-  });
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  final _searchController = TextEditingController();
+  
+  @override
+  void initState() {
+    BlocProvider.of<RhymesListBloc>(context)
+        .add(const SearchRhymes(query: 'любовь'));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +74,23 @@ class SearchScreen extends StatelessWidget {
             height: 16,
           ),
         ), // разделитель
-        SliverList.builder(
-          itemBuilder: (context, index) => const RhymeListCard(
-            rhyme: 'Рифма',
-          ),
+        BlocBuilder<RhymesListBloc, RhymesListState>(
+          builder: (context, state) {
+            if (state is RhymesListLoaded) {
+              final rhymes = state.rhymes.words;
+              return SliverList.builder(
+                itemCount: rhymes.length,
+                itemBuilder: (context, index) => RhymeListCard(
+                  rhyme: rhymes[index],
+                ),
+              );
+            }
+            return const SliverFillRemaining(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          },
         ),
       ],
     );
