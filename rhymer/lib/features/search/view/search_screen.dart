@@ -15,13 +15,6 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final _searchController = TextEditingController();
-  
-  @override
-  void initState() {
-    BlocProvider.of<RhymesListBloc>(context)
-        .add(const SearchRhymes(query: 'любовь'));
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +30,7 @@ class _SearchScreenState extends State<SearchScreen> {
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(70),
             child: SearchButton(
+              controller: _searchController,
               onTap: () => _showSearchBottomSheet(context),
             ),
           ),
@@ -96,16 +90,22 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void _showSearchBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+  Future<void> _showSearchBottomSheet(BuildContext context) async {
+    final bloc = BlocProvider.of<RhymesListBloc>(context);
+    final query = await showModalBottomSheet<String>(
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       elevation: 0,
       context: context,
-      builder: (context) => const Padding(
-        padding: EdgeInsets.only(top: 60),
-        child: SearchRhymesBottomSheet(),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.only(top: 60),
+        child: SearchRhymesBottomSheet(
+          controller: _searchController,
+        ),
       ),
     );
+    if (query != null) {
+      bloc.add(SearchRhymes(query: query));
+    }
   }
 }

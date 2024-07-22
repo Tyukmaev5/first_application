@@ -7,9 +7,7 @@ part 'rhymes_list_event.dart';
 part 'rhymes_list_state.dart';
 
 class RhymesListBloc extends Bloc<RhymesListEvent, RhymesListState> {
-  RhymesListBloc({
-    required this.apiClient,
-  }) : super(RhymesListInitial()) {
+  RhymesListBloc({required this.apiClient}) : super(RhymesListInitial()) {
     on<SearchRhymes>(_onSearch);
   }
 
