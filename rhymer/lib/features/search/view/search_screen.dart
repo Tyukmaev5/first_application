@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rhymer/features/search/bloc/rhymes_list_bloc.dart';
+import 'package:rhymer/features/search/widgets/rhymes_list_initial_banner.dart';
 import 'package:rhymer/features/search/widgets/widgets.dart';
 import 'package:rhymer/ui/ui.dart';
 
@@ -79,6 +80,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               );
             }
+            if (state is RhymesListInitial) {
+              return const SliverFillRemaining(child: RhymesListInitialBanner());
+            }
             return const SliverFillRemaining(
               child: Center(
                 child: CircularProgressIndicator(),
@@ -109,3 +113,4 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 }
+
