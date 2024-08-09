@@ -5,8 +5,10 @@ class RhymeHistoryCard extends StatelessWidget {
   const RhymeHistoryCard({
     super.key,
     required this.rhymes,
+    required this.word,
   });
 
+  final String word;
   final List<String> rhymes;
 
   @override
@@ -21,7 +23,7 @@ class RhymeHistoryCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Слова',
+            word,
             style: theme.textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w700,
             ),

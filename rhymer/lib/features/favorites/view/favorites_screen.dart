@@ -17,6 +17,7 @@ class FavoritesScreen extends StatelessWidget {
             snap: true,
             floating: true,
             title: Text('Избранное'),
+            centerTitle: true,
             elevation: 0,
             surfaceTintColor: Colors.transparent,
           ),

@@ -6,7 +6,7 @@ part of 'api.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _RhymerApiClient implements RhymerApiClient {
   _RhymerApiClient(
@@ -24,13 +24,12 @@ class _RhymerApiClient implements RhymerApiClient {
     final queryParameters = <String, dynamic>{r'word': word};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-      _setStreamType<Rhymes>(
-        Options(
-          method: 'GET',
-          headers: _headers,
-          extra: _extra,
-        )
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Rhymes>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
             .compose(
               _dio.options,
               '/tasks',
@@ -38,15 +37,12 @@ class _RhymerApiClient implements RhymerApiClient {
               data: _data,
             )
             .copyWith(
-              baseUrl: _combineBaseUrls(
-                _dio.options.baseUrl,
-                baseUrl,
-              ),
-            ),
-      ),
-    );
-    final value = Rhymes.fromJson(_result.data!);
-    return value;
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final _value = Rhymes.fromJson(_result.data!);
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

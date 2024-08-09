@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rhymer/features/history/bloc/history_rhymes_bloc.dart';
 import 'package:rhymer/features/search/bloc/rhymes_list_bloc.dart';
 import 'package:rhymer/features/search/widgets/rhymes_list_initial_banner.dart';
 import 'package:rhymer/features/search/widgets/widgets.dart';
@@ -26,6 +27,7 @@ class _SearchScreenState extends State<SearchScreen> {
           snap: true,
           floating: true,
           title: const Text('Rhymer'),
+          centerTitle: true,
           elevation: 0,
           surfaceTintColor: Colors.transparent,
           bottom: PreferredSize(
@@ -36,32 +38,30 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
         ),
-        const SliverToBoxAdapter(
-          child: SizedBox(
-            height: 16,
-          ),
-        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 16)),
         SliverToBoxAdapter(
-          child: SizedBox(
-            height: 120,
-            child: ListView.separated(
-              padding: const EdgeInsets.only(left: 16),
-              scrollDirection: Axis.horizontal,
-              itemCount: 10,
-              separatorBuilder: (context, index) => const SizedBox(
-                width: 16,
-              ),
-              itemBuilder: (context, index) {
-                return const RhymeHistoryCard(
-                  rhymes: [
-                    'word',
-                    'word2',
-                    'word3',
-                    'word4',
-                  ],
-                );
-              },
-            ),
+          child: BlocConsumer<HistoryRhymesBloc, HistoryRhymesState>(
+            listener: _handleRhymesListState,
+            builder: (context, state) {
+              if (state is! HistoryRhymesLoaded) return const SizedBox();
+              return SizedBox(
+                height: 120,
+                child: ListView.separated(
+                  padding: const EdgeInsets.only(left: 16),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.rhymes.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 16),
+                  itemBuilder: (context, index) {
+                    final rhymes = state.rhymes[index];
+                    return RhymeHistoryCard(
+                      rhymes: rhymes.words,
+                      word: rhymes.word,
+                    );
+                  },
+                ),
+              );
+            },
           ),
         ),
         const SliverToBoxAdapter(
@@ -81,7 +81,8 @@ class _SearchScreenState extends State<SearchScreen> {
               );
             }
             if (state is RhymesListInitial) {
-              return const SliverFillRemaining(child: RhymesListInitialBanner());
+              return const SliverFillRemaining(
+                  child: RhymesListInitialBanner());
             }
             return const SliverFillRemaining(
               child: Center(
@@ -92,6 +93,12 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ],
     );
+  }
+
+  void _handleRhymesListState(BuildContext context, HistoryRhymesState state) {
+    if (state is RhymesListLoaded) {
+      BlocProvider.of<HistoryRhymesBloc>(context).add(LoadHistoryRhymes());
+    }
   }
 
   Future<void> _showSearchBottomSheet(BuildContext context) async {
@@ -113,4 +120,3 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 }
-

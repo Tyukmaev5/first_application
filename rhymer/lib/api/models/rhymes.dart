@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:realm/realm.dart';
 
+import '../../repositories/history/history.dart';
+
 part 'rhymes.g.dart';
 
 @JsonSerializable()
-@RealmModel()
-
 class Rhymes {
   const Rhymes({required this.words});
 
@@ -14,4 +14,10 @@ class Rhymes {
   final List<String> words;
 
   Map<String, dynamic> toJson() => _$RhymesToJson(this);
+
+  HistoryRhymes toHistory(String word) => HistoryRhymes(
+        Uuid.v4().toString(),
+        word,
+        words: words,
+      );
 }

@@ -1,7 +1,11 @@
-import 'package:auto_route/auto_route.dart'; 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rhymer/features/settings/widgets/widgets.dart';
 import 'package:rhymer/ui/ui.dart';
+
+import '../../../cubit/cubit.dart';
+import '../../history/bloc/history_rhymes_bloc.dart';
 
 @RoutePage()
 class SettingsScreen extends StatelessWidget {
@@ -11,6 +15,8 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkTheme = context.watch<ThemeCubit>().state.isDark;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -18,16 +24,16 @@ class SettingsScreen extends StatelessWidget {
             snap: true,
             floating: true,
             title: Text('Настройки'),
+            centerTitle: true,
             elevation: 0,
             surfaceTintColor: Colors.transparent,
           ),
           const SliverToBoxAdapter(child: SizedBox(height: 16)), // раздел
           SliverToBoxAdapter(
             child: SettingsToggleCard(
-              title: 'Темная тема',
-              value: true,
-              onChanged: (value) {},
-            ),
+                title: 'Темная тема',
+                value: isDarkTheme,
+                onChanged: (value) => _setThemeBrightness(context, value)),
           ),
           SliverToBoxAdapter(
             child: SettingsToggleCard(
@@ -49,7 +55,7 @@ class SettingsScreen extends StatelessWidget {
               title: 'Очистить историю',
               iconData: Icons.delete_sweep_outlined,
               iconColor: Theme.of(context).primaryColor,
-              onTap: () {},
+              onTap: () => _clearHistory(context),
             ),
           ),
           SliverToBoxAdapter(
@@ -62,6 +68,16 @@ class SettingsScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _setThemeBrightness(BuildContext context, bool value) {
+    context
+        .read<ThemeCubit>()
+        .setThemeBrightness(value ? Brightness.dark : Brightness.light);
+  }
+
+  void _clearHistory(BuildContext context) {
+    BlocProvider.of<HistoryRhymesBloc>(context).add(ClearRhymesHistory());
   }
 }
 
